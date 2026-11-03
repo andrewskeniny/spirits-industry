@@ -29,8 +29,9 @@ window.DATA = {
   pricePerLitre:   [15.7, 14.7, 15.9, 17.3, 18.4, 19.1, 19.7, 20.3, 21.0, 21.7, 22.3, 23.0],
   allSpiritsValue: [484.1, 452.7, 481.3, 506.9, 531.0, 535.2, 544.6, 554.4, 564.9, 576.5, 588.5, 601.4],
   liqueursOtherValue: [244.9, 238.5, 252.0, 264.3, 267.4, 266.1, 267.1, 268.8, 270.9, 273.7, 276.7, 280.3],
-  // share of all-spirits value sold in bars, restaurants and hotels (%)
-  outOfHomeShare: [28.9, 21.2, 21.4, 22.5, 23.2, 23.0, 22.7, 22.5, 22.3, 22.2, 22.1, 22.0],
+  // share of the seven categories' value sold in bars, restaurants and hotels (%)
+  outOfHomeShare: [33.3, 24.3, 24.2, 26.3, 27.3, 27.2, 26.8, 26.5, 26.3, 26.2, 26.0, 25.9],
+  // online share of at-home (shop) sales, all spirits (%), Statista "online revenue share"
   online: { years: [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030],
             share: [2.5, 2.9, 3.7, 4.7, 4.6, 5.0, 5.4, 6.1, 6.8, 7.3, 7.9, 8.4, 8.9] },
 
@@ -62,7 +63,7 @@ window.DATA = {
   ],
   // The Spirits Business, Brand Champions 2026, m nine-litre cases, 2025
   brands: [
-    ["Jinro", "Soju", 94.5], ["-196", "RTD", 34.6], ["Royal Stag", "Indian whisky", 32.6],
+    ["Jinro", "Soju", 94.5], ["−196", "Suntory canned cocktail", 34.6], ["Royal Stag", "Indian whisky", 32.6],
     ["McDowell's", "Indian whisky", 31.9], ["Fenjiu", "Baijiu", 28.7], ["Chum Churum", "Soju", 28.0],
     ["High Noon", "RTD", 24.0], ["Smirnoff", "Vodka", 23.4], ["Tanduay", "Rum", 23.2],
     ["Officer's Choice", "Indian whisky", 20.7]

@@ -31,6 +31,12 @@
     });
   })();
 
+  /* ---------------- brand logos: show the name as text until a logo file is uploaded ---------------- */
+  document.querySelectorAll("img[data-fallback]").forEach(function (img) {
+    function toText() { var sp = document.createElement("span"); sp.className = "bt"; sp.textContent = img.alt; img.replaceWith(sp); }
+    if (img.complete && img.naturalWidth === 0) toText(); else img.addEventListener("error", toText);
+  });
+
   /* ---------------- optional photos: hide the figure if the file is missing ---------------- */
   document.querySelectorAll("figure[data-optional] img").forEach(function (img) {
     function drop() { img.closest("figure").remove(); }
@@ -74,7 +80,7 @@
   }
   Chart.defaults.color = C.muted;
   Chart.defaults.maintainAspectRatio = false;
-  Chart.defaults.animation = { duration: 700 };
+  Chart.defaults.animation.duration = 700;
   Chart.defaults.plugins.legend.display = false;
   Chart.defaults.plugins.legend.labels.boxWidth = 12;
   Chart.defaults.plugins.legend.labels.boxHeight = 12;
@@ -88,6 +94,7 @@
   Chart.defaults.plugins.tooltip.cornerRadius = 0;
   Chart.defaults.plugins.tooltip.titleFont = { weight: "600" };
   Chart.defaults.elements.bar.borderRadius = 0;
+  Chart.defaults.elements.line.cubicInterpolationMode = "monotone";
   Chart.defaults.scale.grid.color = "#ecebe6";
   Chart.defaults.scale.border.color = C.light;
 
@@ -133,13 +140,7 @@
   function make(id, cfg) {
     var el = document.getElementById(id);
     if (!el) return;
-    // draw when the chart scrolls into view, so the animation is seen
-    if ("IntersectionObserver" in window) {
-      var o = new IntersectionObserver(function (es) {
-        if (es[0].isIntersecting) { o.disconnect(); new Chart(el, cfg); }
-      }, { rootMargin: "0px 0px -10% 0px" });
-      o.observe(el);
-    } else { new Chart(el, cfg); }
+    try { new Chart(el, cfg); } catch (e) { console.error("Chart " + id + " failed:", e); }
   }
   var pct = function (v) { return (v > 0 ? "+" : "") + v.toFixed(Math.abs(v) % 1 ? 1 : 0) + "%"; };
   var pctFix = function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%"; };
@@ -362,13 +363,13 @@
   make("c-channel", {
     type: "line",
     data: { labels: D.online.years.map(function (y) { return y > 2025 ? y + "F" : String(y); }), datasets: [
-      { label: "Bars, restaurants and hotels", data: [null].concat(D.outOfHomeShare), borderColor: C.claret, backgroundColor: C.claret, borderWidth: 3, pointRadius: 0, pointHoverRadius: 4, tension: 0.25,
+      { label: "Bars, restaurants and hotels (% of total value)", data: [null].concat(D.outOfHomeShare), borderColor: C.claret, backgroundColor: C.claret, borderWidth: 3, pointRadius: 0, pointHoverRadius: 4, tension: 0.25,
         segment: { borderDash: function (c) { return c.p0DataIndex >= 7 ? [5, 4] : undefined; } } },
-      { label: "Online", data: D.online.share, borderColor: C.green, backgroundColor: C.green, borderWidth: 3, pointRadius: 0, pointHoverRadius: 4, tension: 0.25,
+      { label: "Online (% of shop sales)", data: D.online.share, borderColor: C.green, backgroundColor: C.green, borderWidth: 3, pointRadius: 0, pointHoverRadius: 4, tension: 0.25,
         segment: { borderDash: function (c) { return c.p0DataIndex >= 7 ? [5, 4] : undefined; } } }] },
     options: {
       interaction: { mode: "index", intersect: false }, spanGaps: false,
-      scales: { y: { min: 0, max: 32, ticks: { callback: function (v) { return v + "%"; } } }, x: { grid: { display: false } } },
+      scales: { y: { min: 0, max: 36, ticks: { callback: function (v) { return v + "%"; } } }, x: { grid: { display: false } } },
       plugins: { legend: { display: true, position: "top", align: "start" },
                  tooltip: { callbacks: { label: function (i) { return i.dataset.label + ": " + i.raw + "%"; } } } }
     }
